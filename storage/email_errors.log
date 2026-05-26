@@ -1,0 +1,2 @@
+2026-05-25 15:37:12 - sendEmail failed for genghiskhan71234@gmail.com. smtp: {"error":"auth_not_supported","details":"250-SIZE 35882577\r\n"} mail(): failed
+2026-05-25 15:37:39 - sendEmail failed for genghiskhan71234@gmail.com. smtp: {"error":"starttls_failed","details":"220 2.0.0 Ready to start TLS\r\n"} mail(): failed
