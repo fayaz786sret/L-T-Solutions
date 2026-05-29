@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-md-6 col-lg-5">
                 <div class="text-center mb-4">
                     <a href="<?= getUrl() ?>" class="text-decoration-none">
-                        <h3 class="fw-bold text-primary"><i class="fas fa-graduation-cap me-2"></i><?= SITE_NAME ?></h3>
+                        <h3 class="fw-bold text-primary"><i class="fas fa-graduation-cap me-2"></i>L&T Solutions LearnHub</h3>
                     </a>
                     <p class="text-muted mb-0">Unified Login Portal</p>
                 </div>

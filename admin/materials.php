@@ -120,7 +120,7 @@ $branches = getBranches();
                                 <input type="text" name="title" class="form-control" placeholder="Enter material title" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-medium">File (PDF, DOC, DOCX, PPT, PPTX)</label>
+                                <label class="form-label fw-medium">File (PDF)</label>
                                 <input type="file" name="file" class="form-control" required accept=".pdf,.doc,.docx,.ppt,.pptx">
                             </div>
                             <div class="col-12">

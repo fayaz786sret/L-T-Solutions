@@ -6,6 +6,7 @@ requireAdmin();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
     $title = sanitize($_POST['title']);
     $description = sanitize($_POST['description']);
+    $duration_minutes = max(1, (int)($_POST['duration_minutes'] ?? 30));
     $branch_id = (int)$_POST['branch_id'];
     $subject_id = (int)$_POST['subject_id'];
 
@@ -27,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
         $conn->beginTransaction();
 
         try {
-            $test_id = $db->insert("INSERT INTO monthly_tests (title, description, branch_id, subject_id, created_by) VALUES (?, ?, ?, ?, ?)",
-                [$title, $description, $branch_id, $subject_id, $_SESSION['user_id']]);
+            $test_id = $db->insert("INSERT INTO monthly_tests (title, description, duration_minutes, branch_id, subject_id, created_by) VALUES (?, ?, ?, ?, ?, ?)",
+                [$title, $description, $duration_minutes, $branch_id, $subject_id, $_SESSION['user_id']]);
 
             $insertedQuestions = 0;
             foreach ($questions as $i => $q) {
@@ -111,6 +112,11 @@ $branches = getBranches();
                                 <label class="form-label fw-medium">Description</label>
                                 <input type="text" name="description" class="form-control" placeholder="Brief description">
                             </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Duration (Minutes) <span class="text-danger">*</span></label>
+                                <input type="number" name="duration_minutes" class="form-control" min="1" max="300" value="30" required>
+                                <small class="text-muted">This time will be shown to students and enforced during the test.</small>
+                            </div>
                         </div>
 
                         <h6 class="fw-bold mb-3"><i class="fas fa-list-ol me-2 text-primary"></i>Questions</h6>
@@ -154,12 +160,13 @@ $branches = getBranches();
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
-                                <tr><th>Title</th><th>Questions</th><th>Subject</th><th>Branch</th><th>Created</th><th>Actions</th></tr>
+                                <tr><th>Title</th><th>Duration</th><th>Questions</th><th>Subject</th><th>Branch</th><th>Created</th><th>Actions</th></tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($tests as $t): ?>
                                 <tr>
                                     <td class="fw-medium"><?= sanitize($t['title']) ?></td>
+                                    <td><span class="badge bg-warning-soft text-warning"><?= (int)($t['duration_minutes'] ?? 30) ?> min</span></td>
                                     <td><span class="badge bg-info-soft text-info"><?= $t['question_count'] ?> Q</span></td>
                                     <td><?= sanitize($t['subject_name']) ?></td>
                                     <td><span class="badge bg-primary-soft text-primary"><?= sanitize($t['branch_name']) ?></span></td>
@@ -171,7 +178,7 @@ $branches = getBranches();
                                 </tr>
                                 <?php endforeach; ?>
                                 <?php if (empty($tests)): ?>
-                                <tr><td colspan="6" class="text-center text-muted py-4">No tests created yet</td></tr>
+                                <tr><td colspan="7" class="text-center text-muted py-4">No tests created yet</td></tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>

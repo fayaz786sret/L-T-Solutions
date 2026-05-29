@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= SITE_NAME ?> - Learning Platform</title>
+    <title>L&T Solutions LearnHub - Learning Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient shadow-lg">
         <div class="container">
             <a class="navbar-brand fw-bold fs-4" href="<?= getUrl() ?>">
-                <i class="fas fa-graduation-cap me-2"></i><?= SITE_NAME ?>
+                <i class="fas fa-graduation-cap me-2"></i>L&T Solutions LearnHub
             </a>
             <div class="ms-auto">
                 <a href="<?= getUrl('login.php') ?>" class="btn btn-light btn-sm me-2 rounded-pill px-3">
@@ -123,7 +123,7 @@
 
     <footer class="bg-dark text-white-50 py-4">
         <div class="container text-center">
-            <small>&copy; <?= date('Y') ?> <?= SITE_NAME ?>. All rights reserved.</small>
+            <small>&copy; <?= date('Y') ?> L&T Solutions LearnHub. All rights reserved.</small>
         </div>
     </footer>
 

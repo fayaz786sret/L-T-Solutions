@@ -455,6 +455,11 @@ function ensureLearningPlatformSchema() {
         if (!$chapterNoColumn) {
             $db->query("ALTER TABLE chapters ADD COLUMN chapter_no INT DEFAULT NULL AFTER chapter_name");
         }
+
+        $testDurationColumn = $db->fetch("SHOW COLUMNS FROM monthly_tests LIKE 'duration_minutes'");
+        if (!$testDurationColumn) {
+            $db->query("ALTER TABLE monthly_tests ADD COLUMN duration_minutes INT NOT NULL DEFAULT 30 AFTER description");
+        }
     } catch (Exception $e) {
         // Keep the application running even if the migration cannot be applied here.
     }

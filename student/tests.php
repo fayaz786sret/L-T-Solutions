@@ -80,6 +80,7 @@ $tests = $db->fetchAll($testQuery, array_merge([$student_id], $params));
                             <p class="small text-muted mb-2"><i class="fas fa-book me-1"></i><?= sanitize($t['subject_name']) ?></p>
                             <p class="small text-muted mb-3">
                                 <i class="fas fa-list-ol me-1"></i><?= $t['question_count'] ?> Questions
+                                | <i class="fas fa-clock me-1"></i><?= (int)($t['duration_minutes'] ?? 30) ?> min
                                 <?php if ($t['description']): ?> | <?= sanitize($t['description']) ?><?php endif; ?>
                             </p>
                             <?php if ($t['attempted']): ?>

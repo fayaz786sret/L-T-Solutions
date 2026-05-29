@@ -16,7 +16,20 @@ if ($attempted) { flashMessage('warning', 'You have already attempted this test.
 $questions = $db->fetchAll("SELECT * FROM test_questions WHERE test_id = ?", [$test_id]);
 if (empty($questions)) { flashMessage('danger', 'No questions in this test.'); redirect('student/tests.php'); }
 
+$durationMinutes = max(1, (int)($test['duration_minutes'] ?? 30));
+$sessionKey = 'test_deadline_' . $test_id;
+if (!isset($_SESSION[$sessionKey])) {
+    $_SESSION[$sessionKey] = time() + ($durationMinutes * 60);
+}
+$deadline = (int)$_SESSION[$sessionKey];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
+    if (time() > $deadline) {
+        unset($_SESSION[$sessionKey]);
+        flashMessage('danger', 'Time is up. Your test could not be submitted.');
+        redirect('student/tests.php');
+    }
+
     $answers = $_POST['answer'] ?? [];
     $score = 0;
     $total = count($questions);
@@ -31,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
     try {
         $db->insert("INSERT INTO test_attempts (student_id, test_id, score, total_questions) VALUES (?, ?, ?, ?)",
             [$student_id, $test_id, $score, $total]);
+        unset($_SESSION[$sessionKey]);
         flashMessage('success', "Test completed! You scored $score out of $total.");
     } catch (Exception $e) {
         flashMessage('warning', 'Your test was already submitted.');
@@ -58,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h4 class="fw-bold mb-1"><?= sanitize($test['title']) ?></h4>
-                            <small class="text-muted"><?= sanitize($test['subject_name']) ?> | <?= count($questions) ?> Questions | <span class="text-warning fw-bold">Duration: 30 min</span></small>
+                            <small class="text-muted"><?= sanitize($test['subject_name']) ?> | <?= count($questions) ?> Questions | <span class="text-warning fw-bold">Duration: <?= $durationMinutes ?> min</span></small>
                         </div>
                         <div id="timer" class="fs-4 fw-bold text-warning"></div>
                     </div>
@@ -95,13 +109,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_test'])) {
     </div>
 
     <script>
-    let timeLeft = 1800;
+    let timeLeft = Math.max(0, <?= $deadline ?> - Math.floor(Date.now() / 1000));
     function updateTimer() {
         const m = Math.floor(timeLeft / 60);
         const s = timeLeft % 60;
         document.getElementById('timer').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        if (timeLeft <= 0) { document.getElementById('testForm').submit(); }
-        else { timeLeft--; setTimeout(updateTimer, 1000); }
+        if (timeLeft <= 0) {
+            document.getElementById('testForm').submit();
+        } else {
+            timeLeft--;
+            setTimeout(updateTimer, 1000);
+        }
     }
     updateTimer();
     </script>

@@ -76,7 +76,7 @@ $branches = getBranches();
             <div class="col-md-6">
                 <div class="text-center mb-4">
                     <a href="<?= getUrl() ?>" class="text-decoration-none">
-                        <h3 class="fw-bold text-primary"><i class="fas fa-graduation-cap me-2"></i><?= SITE_NAME ?></h3>
+                        <h3 class="fw-bold text-primary"><i class="fas fa-graduation-cap me-2"></i>L&T Solutions LearnHub</h3>
                     </a>
                     <p class="text-muted">Create your student account</p>
                 </div>

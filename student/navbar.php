@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-gradient shadow-lg">
     <div class="container">
         <a class="navbar-brand fw-bold" href="<?= getUrl('student/dashboard.php') ?>">
-            <i class="fas fa-graduation-cap me-2"></i><?= SITE_NAME ?>
+            <i class="fas fa-graduation-cap me-2"></i>L&T Solutions LearnHub
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#studentNav">
             <span class="navbar-toggler-icon"></span>

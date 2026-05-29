@@ -42,7 +42,7 @@ $questions = $db->fetchAll("SELECT * FROM test_questions WHERE test_id = ?", [$t
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="fw-bold mb-1"><i class="fas fa-list-ol me-2 text-primary"></i><?= sanitize($test['title']) ?></h5>
-                            <small class="text-muted"><?= sanitize($test['branch_name']) ?> | <?= sanitize($test['subject_name']) ?></small>
+                            <small class="text-muted"><?= sanitize($test['branch_name']) ?> | <?= sanitize($test['subject_name']) ?> | <?= (int)($test['duration_minutes'] ?? 30) ?> min</small>
                         </div>
                         <div>
                             <button class="btn btn-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addQModal"><i class="fas fa-plus me-1"></i>Add Question</button>
